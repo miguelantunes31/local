@@ -2,12 +2,12 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 
 
-function App() {
-  return (
-    <div>
-      <Button variant="contained" color="secondary">ola</Button>
-    </div>
-  );
+class App extends Component {
+  state = {
+    todos:[
+      {}
+    ]
+  }
 }
 
 export default App;
