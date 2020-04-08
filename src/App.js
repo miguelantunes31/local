@@ -1,23 +1,26 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { styled } from '@material-ui/core/styles';
 import { compose, spacing, palette } from '@material-ui/system';
 import {Button} from '@material-ui/core'
 import DashBoard from './components/bashBoard'
-import List from './components/List';
+import Todos from './components/todos';
+import Lista from './components/List';
 
 const Box = styled('div')(compose(spacing , palette));
 
-export default function App () {
-      
-
-  return (
-      <div>
-        <DashBoard/>
-        <List />
-      </div>
-    );
-
+class App extends Component {
+  render() {    
+    return (
+        <div className="App">
+          <DashBoard/>
+          <Lista />
+        </div>
+      );
+  }
 }
+
+
+export default App;
 
 
 
