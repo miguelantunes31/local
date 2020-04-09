@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import { compose, spacing, palette } from '@material-ui/system';
 import { styled } from '@material-ui/core/styles';
 import {Button} from '@material-ui/core'

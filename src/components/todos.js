@@ -2,7 +2,8 @@ import React from 'react';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
+
+
 
 
 const Todos = ( { todos, deleteTodo } ) => {
@@ -20,12 +21,16 @@ const Todos = ( { todos, deleteTodo } ) => {
             )
         })
     ) : (
-            <p>sem tarefas</p>
+            <p>Sem tarefas</p>
         )
+
+
     return(
+        
         <div >
             {todoList}
         </div>
+        
     );
 }
 
