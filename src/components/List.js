@@ -25,15 +25,15 @@ class Lista extends Component {
         })
       }
 
-      addTodo = (todo) => {
-        todo.id = Math.random()
-        let todos = [...this.state.todos, todo]
+      addTodo = (props) => {
+        props.id = Math.random()
+        let todos = [...this.state.todos, props]
         this.setState({
             todos
         })
       }
 
-      caixa= () => {
+      caixa = () => {
         const ola = () => {
             return(
             <Box
@@ -47,6 +47,8 @@ class Lista extends Component {
         </Box>
             );}
       }
+
+
       
 
     render () {
@@ -54,9 +56,9 @@ class Lista extends Component {
         <Box
         color="black" bgcolor="darkgrey" p={1}>
         <div>
-            <Todos todos={this.state.todos} 
-                deleteTodo={this.deleteTodo} 
-            />
+        <Todos todos={this.state.todos} 
+            deleteTodo={this.deleteTodo} 
+        />
             <AddTodo addTodo={this.addTodo} />
         </div>
         </Box>
