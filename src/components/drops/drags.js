@@ -24,7 +24,3 @@ export default class Draggable extends React.Component {
     }
 }
 
-/*Draggable.PropTypes = {
-    id: PropTypes.string,
-    children: PropTypes.node,
-}*/

@@ -22,8 +22,3 @@ export default class Droppable extends React.Component{
     }
 }
 
-/*Droppable.PropTypes = {
-    id: PropTypes.string,
-    children: PropTypes.node,
-    style: PropTypes.object
-}*/
