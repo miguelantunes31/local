@@ -6,16 +6,13 @@ import Droppable from './drops/drops';
 import { compose, spacing, palette } from '@material-ui/system';
 import { styled } from '@material-ui/core/styles';
 
-
+import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-const Box = styled('div')(compose(spacing,palette));
+//const Box = styled('div')(compose(spacing,palette));
 
-const ola = (props) =>{
-    return (<div> {props} </div>);
-}
 
 class Lista extends Component {
 
@@ -46,8 +43,8 @@ class Lista extends Component {
       
     render () {
     return(
-        <Box color="black" bgcolor="lightgrey" p={1}>
-            <div>{ola()}</div>
+        <Box width="55%" bgcolor="grey.300" p={1} my={0.5} >
+            
         <table>
             
             <tr>

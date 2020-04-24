@@ -4,42 +4,77 @@ import Lista from './components/List';
 import { compose, spacing, palette } from '@material-ui/system';
 import { styled } from '@material-ui/core/styles';
 import {Button} from '@material-ui/core'
-import { render } from '@testing-library/react';
 
-const Box = styled('div')(compose(spacing,palette));
+import Box from '@material-ui/core/Box';
 
 
+import { makeStyles } from '@material-ui/core/styles';
+
+const BBox = styled('div')(compose(spacing,palette));
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    ...theme.typography.button,
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1),
+  },
+}));
   
     
 
 class App extends Component {   
+
+
   constructor(props) {
     super(props);
 
     this.state={lista:[
-      
+      null,
+      null,
+      null,
+      null,
+      null
     ]};
   }
-
+  
   i=0;
   meh=0;
   conta=0
 
 
   onChange = () => {
-          this.setState({
-            lista: this.state.lista.concat(
-              <div>{this.i+1}<br/><Lista/></div>
-            )
-        })
-        this.i++
+
+    if(this.state.lista[0]==null){
+      this.state.lista[0]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 1</h2></Box><Lista/><br/></div>
+      this.setState(this.state.lista)
+
+    }else if (this.state.lista[1]==null){
+      this.state.lista[1]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 2</h2></Box><Lista/><br/></div>
+      this.setState(this.state.lista)
+
+    }else if(this.state.lista[2]==null){
+      this.state.lista[2]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 3</h2></Box><Lista/><br/></div>
+      this.setState(this.state.lista)
+
+    }else if(this.state.lista[3]==null){
+      this.state.lista[3]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 4</h2></Box><Lista/><br/></div>
+      this.setState(this.state.lista)
+
+    }else if(this.state.lista[4]==null){
+      this.state.lista[4]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 5</h2></Box><Lista/><br/></div>
+      this.setState(this.state.lista)
+    }else{
+      return alert("sem espeço para novas listas")
+    }
+          
+
       }
 
 
   ola=3;
   deleteItem = () => {
       var array = [...this.state.lista];
-      array[this.ola-1]=" "
+      array[this.ola-1]=null
       this.setState({lista: array});
 
   }
@@ -60,13 +95,13 @@ class App extends Component {
     if(this.state.lista.length===0){
       return (
         <Button disabled variant="contained" color="secondary" onClick={this.escolheLista}>
-          Apagar Lista(com defeito) 
+          Apagar Lista
         </Button>
         )          
     } else {
       return (
         <Button variant="contained" color="secondary" onClick={this.escolheLista}>
-          Apagar Lista(com defeito) 
+          Apagar Lista
         </Button>
       )
     }
@@ -79,7 +114,7 @@ class App extends Component {
 
     return (
         <div className="App">
-           <Box
+           <BBox
             color="Blue" bgcolor="lightBlue" p={1}
           >
             <table>
@@ -94,7 +129,7 @@ class App extends Component {
                   {this.elemina()}
                 </td>
             </table>
-          </Box>
+          </BBox>
           <br/>
             <div>{this.state.lista}</div>
           <br/>
