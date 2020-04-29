@@ -14,23 +14,23 @@ const Box = styled('div')(compose(spacing,palette));
 
 
 
-const Todos = ( { todos, deleteTodo, id } ) => {
+const Todos = ( todos: any , eleminar: any ) => {
 
     const todoList = todos.length ? (
-        todos.map(todo => {
+        todos.map((todo: { id: string | number | undefined; content: React.ReactNode; }) => {
             return(
                 
                 <List component="nav" key={todo.id}>
                     <Draggable id={todo.id}>
                     <Box color="white" bgcolor="black" p={1}>
                         <ListItem button >
-                        <table width="100%" >
+                        <table >
                             <tr>
                                 <td>
                             {todo.content}  
                             </td>
                             <td align="right">
-                                <Button variant="outlined" color="secondary" onClick={() => {deleteTodo(todo.id)}} >
+                                <Button variant="outlined" color="secondary" onClick={() => {eleminar(todo.id)}} >
                                     <DeleteIcon/>
                                 </Button>
                               </td>
@@ -59,3 +59,5 @@ const Todos = ( { todos, deleteTodo, id } ) => {
 }
 
 export default Todos;
+
+

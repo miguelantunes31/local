@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Todos from './todos';
 import AddTodo from './addForm';
 import Droppable from './drops/drops';
+import Example from './exemplo';
 
 import { compose, spacing, palette } from '@material-ui/system';
 import { styled } from '@material-ui/core/styles';
@@ -14,37 +15,29 @@ import Container from '@material-ui/core/Container';
 //const Box = styled('div')(compose(spacing,palette));
 
 
-class Lista extends Component {
+function Lista () {
 
-    state= {
-        todos: [
-            
-        ]
-    }
-    
-    deleteTodo = (id) => {
-        const todos = this.state.todos.filter(todo => {
+    let todo:any[] | undefined;
+
+
+    function deleteTodo  (id: number)  {
+        const todos = todo?.filter(todo => {
             return todo.id !== id
         })
-        this.setState({
-            todos
-        })
+            return todos
       }
 
-      addTodo = (e) => {
+      /*function addTodo  (e: { id: number; })  {
         e.id = Math.random()
-        let todos = [...this.state.todos, e]
-        this.setState({
-            todos
-        })
-      }
-
+        let todos = [todo, e]
+            return todos
+      } <AddTodo addTodo={addTodo} />*/
 
       
-    render () {
-    return(
+        
+    return<>
         <Box width="55%" bgcolor="grey.300" p={1} my={0.5} >
-            
+            <Example/>
         <table>
             
             <tr>
@@ -55,8 +48,8 @@ class Lista extends Component {
                     <Container maxWidth="sm">
                     
                         <Typography style={{ backgroundColor: 'grey', height: '50vh', width: '50vh' }}>
-                                <AddTodo addTodo={this.addTodo} />
-                                <Todos todos={this.state.todos} deleteTodo={this.deleteTodo}></Todos>
+                                
+                                <Todos todos={todo} eleminar={deleteTodo}></Todos>
                         </Typography>
                     </Container>
                     
@@ -74,8 +67,8 @@ class Lista extends Component {
             
         </table>
         </Box>
-    );
-    }
+    </>
+    
 }
 
 export default Lista;

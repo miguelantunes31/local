@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import Lista from './components/List';
+import { useState, useEffect } from 'react';
+
+import Example from './components/exemplo';
 
 import { compose, spacing, palette } from '@material-ui/system';
 import { styled } from '@material-ui/core/styles';
@@ -22,97 +25,91 @@ const useStyles = makeStyles((theme) => ({
   
     
 
-class App extends Component {   
 
 
-  constructor(props) {
-    super(props);
 
-    this.state={lista:[
-      null,
-      null,
-      null,
-      null,
-      null
-    ]};
-  }
+function App () {   
+
+  let lista: any[]= [
+    null,
+    null,
+    null,
+    null,
+    null
+  ];
+
+  const [portfolioData, setPortfoloioData] = useState<any[]>([ // <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 1</h2></Box><Lista/><br/></div>
+    null,
+    null,
+    null,
+    null,
+    null]);
   
-  i=0;
-  meh=0;
-  conta=0
 
+    
+  
+  
+  let i:number=0;
+  
+  function adiciona () {
 
-  onChange = () => {
+    if(portfolioData[0]==null){
+      lista[0] = <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 1</h2></Box><Lista/><br/></div>
+      setPortfoloioData([lista[0]])
+      return lista
 
-    if(this.state.lista[0]==null){
-      this.state.lista[0]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 1</h2></Box><Lista/><br/></div>
-      this.setState(this.state.lista)
+    }else if (lista[1]==null){
+      lista[1] = <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 2</h2></Box><Lista/><br/></div>
+      setPortfoloioData([lista[0],lista[1]])
+      return lista
 
-    }else if (this.state.lista[1]==null){
-      this.state.lista[1]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 2</h2></Box><Lista/><br/></div>
-      this.setState(this.state.lista)
+    }else if(lista[2]==null){
+      lista[2] = <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 3</h2></Box><Lista/><br/></div>
+      setPortfoloioData([lista[0],lista[1],lista[2]])
+      return lista
 
-    }else if(this.state.lista[2]==null){
-      this.state.lista[2]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 3</h2></Box><Lista/><br/></div>
-      this.setState(this.state.lista)
-
-    }else if(this.state.lista[3]==null){
-      this.state.lista[3]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 4</h2></Box><Lista/><br/></div>
-      this.setState(this.state.lista)
-
-    }else if(this.state.lista[4]==null){
-      this.state.lista[4]=<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 5</h2></Box><Lista/><br/></div>
-      this.setState(this.state.lista)
     }else{
       return alert("sem espeço para novas listas")
     }
           
-
+    
       }
 
 
-  ola=3;
-  deleteItem = () => {
-      var array = [...this.state.lista];
-      array[this.ola-1]=null
-      this.setState({lista: array});
+  let ola: number=3;
+  function deleteItem() {
+      var array = [...lista];
+      array[ola-1]=null
+      lista= array
 
   }
 
-  
+  /*function escolheLista  ()  {
+    let ola :number | string = prompt('selecione a lista para eleminar') 
+    deleteItem(ola)
+  }*/
 
-  consola = () => {
-    console.log (this.state.lista)
-  }
+  /*function elemina() {
 
-  escolheLista = () => {
-    this.ola = prompt('selecione a lista para eleminar') 
-    this.deleteItem(this.ola)
-  }
-
-  elemina = () =>{
-
-    if(this.state.lista.length===0){
+    if(lista.length===0){
       return (
-        <Button disabled variant="contained" color="secondary" onClick={this.escolheLista}>
+        <Button disabled variant="contained" color="secondary" onClick={escolheLista}>
           Apagar Lista
         </Button>
         )          
     } else {
       return (
-        <Button variant="contained" color="secondary" onClick={this.escolheLista}>
+        <Button variant="contained" color="secondary" onClick={escolheLista}>
           Apagar Lista
         </Button>
       )
     }
-  }
+  } {elemina()}*/
 
 
 
 
-  render() {
-
-    return (
+    return <>
         <div className="App">
            <BBox
             color="Blue" bgcolor="lightBlue" p={1}
@@ -120,22 +117,22 @@ class App extends Component {
             <table>
                 <td>
                   <form >
-                      <Button variant="outlined" color="secondary" onClick={this.onChange} >
+                      <Button variant="outlined" color="secondary" onClick={adiciona} >
                           Nova Lista
                       </Button>
                   </form>
                 </td>
                 <td>
-                  {this.elemina()}
+                  
                 </td>
             </table>
           </BBox>
           <br/>
-            <div>{this.state.lista}</div>
+            <div>{portfolioData}</div>
           <br/>
+          <Example/>
         </div>
-      );
-  }
+      </>
 }
 
 export default App;
