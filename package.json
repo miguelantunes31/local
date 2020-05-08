@@ -11,8 +11,12 @@
     "react": "^16.13.1",
     "react-dnd": "^10.0.2",
     "react-dom": "^16.13.1",
+    "react-drag-and-drop": "^3.0.0",
+    "react-draggable": "^4.3.1",
+    "react-list-drag-and-drop": "^0.9.2",
     "react-native": "^0.62.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-virtualized": "^9.21.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
+
+
 export default class Draggable extends React.Component {
 
-    drag =(e) => {
+    drag = (e) => {
         e.dataTransfer.setData('transfer',e.target.id);
     }
 
@@ -23,4 +26,5 @@ export default class Draggable extends React.Component {
         );
     }
 }
+
 

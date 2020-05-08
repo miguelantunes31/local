@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
 import Lista from './components/List';
 import { useState, useEffect } from 'react';
+import * as React from "react";
 
 import Example from './components/exemplo';
 
@@ -12,103 +12,73 @@ import Box from '@material-ui/core/Box';
 
 
 import { makeStyles } from '@material-ui/core/styles';
+import { render } from 'react-dom';
 
 const BBox = styled('div')(compose(spacing,palette));
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    ...theme.typography.button,
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(1),
-  },
-}));
-  
-    
+const ola = require("./components/ola.json");
+
+interface List {
+  title: any;
+}
+
+interface State {
+  lista: List[];
+}
 
 
 
 
-function App () {   
-
-  let lista: any[]= [
-    null,
-    null,
-    null,
-    null,
-    null
-  ];
-
-  const [portfolioData, setPortfoloioData] = useState<any[]>([ // <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 1</h2></Box><Lista/><br/></div>
-    null,
-    null,
-    null,
-    null,
-    null]);
-  
-
-    
-  
-  
-  let i:number=0;
-  
-  function adiciona () {
-
-    if(portfolioData[0]==null){
-      lista[0] = <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 1</h2></Box><Lista/><br/></div>
-      setPortfoloioData([lista[0]])
-      return lista
-
-    }else if (lista[1]==null){
-      lista[1] = <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 2</h2></Box><Lista/><br/></div>
-      setPortfoloioData([lista[0],lista[1]])
-      return lista
-
-    }else if(lista[2]==null){
-      lista[2] = <div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 3</h2></Box><Lista/><br/></div>
-      setPortfoloioData([lista[0],lista[1],lista[2]])
-      return lista
-
-    }else{
-      return alert("sem espeço para novas listas")
-    }
-          
-    
-      }
-
-
-  let ola: number=3;
-  function deleteItem() {
-      var array = [...lista];
-      array[ola-1]=null
-      lista= array
-
+export default class App extends React.PureComponent<{}, State> {
+  constructor(props: {}) {
+    super(props);
+    this.state = { lista: ola.Lists };
   }
 
-  /*function escolheLista  ()  {
-    let ola :number | string = prompt('selecione a lista para eleminar') 
-    deleteItem(ola)
-  }*/
+  
+  adiciona = ()=> {
+      console.log(ola.Lists)
 
-  /*function elemina() {
+    if(ola.Lists[0]==null){
+      ola.Lists[0]=(<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 1</h2></Box><Lista/><br/></div>)
+      this.setState(ola.Lists)
 
-    if(lista.length===0){
-      return (
-        <Button disabled variant="contained" color="secondary" onClick={escolheLista}>
-          Apagar Lista
-        </Button>
-        )          
-    } else {
-      return (
-        <Button variant="contained" color="secondary" onClick={escolheLista}>
-          Apagar Lista
-        </Button>
-      )
-    }
-  } {elemina()}*/
+    }else if(ola.Lists[1]==null){
+      ola.Lists[1]=(<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 2</h2></Box><Lista/><br/></div>)
+      this.setState(ola.Lists)
+    
+      }else if(ola.Lists[2]==null){
+        ola.Lists[2]=(<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 3</h2></Box><Lista/><br/></div>)
+        this.setState(ola.Lists)
+
+      }else if(ola.Lists[3]==null){
+        ola.Lists[3]=(<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 4</h2></Box><Lista/><br/></div>)
+        this.setState(ola.Lists)
+
+      }else if(ola.Lists[4]==null){
+        ola.Lists[4]=(<div><Box width="5%" bgcolor="grey.300" p={1} my={0.3} ><h2>Lista 5</h2></Box><Lista/><br/></div>)
+        this.setState(ola.Lists)
+      }else{
+        alert("sem espaço para novas listas")
+      }
+  }
+
+
+   olaaa:string|any="333";
+  
+  
+
+  escolheLista =  () =>  {
+    this.olaaa=prompt("Qual lista deseja remover?")
+    var olaa = parseInt(this.olaaa)
+    
+    ola.Lists[olaa-1]=null;
+    this.setState(ola.Lists)
+  }
 
 
 
-
+render(){
     return <>
         <div className="App">
            <BBox
@@ -117,60 +87,23 @@ function App () {
             <table>
                 <td>
                   <form >
-                      <Button variant="outlined" color="secondary" onClick={adiciona} >
+                      <Button variant="outlined" color="secondary" onClick={this.adiciona}>
                           Nova Lista
                       </Button>
                   </form>
                 </td>
                 <td>
-                  
+                  <Button variant="contained" color="secondary" onClick={this.escolheLista}>
+                    Apagar Lista
+                  </Button>
                 </td>
             </table>
           </BBox>
           <br/>
-            <div>{portfolioData}</div>
+          <div>{this.state.lista}</div>
           <br/>
-          <Example/>
+  
         </div>
       </>
 }
-
-export default App;
-
-
-/*
-var array = [...this.state.lista]; // make a separate copy of the array
-      var index = array.indexOf(this.state.lista[ola-1])
-      if (index !== -1) {
-        array.splice(index, 1);
-        this.setState({lista: array});
-
-
-
-
-
-
-        <Button variant="contained" color="secondary" onClick={this.escolheLista}>
-                      Apagar Lista(com defeito) 
-                  </Button>
-
-
-
-                  this.setState({
-      lista: this.state.lista.concat(
-        <div><br/><Lista/></div>
-      )
-    })
-
-
-
-    do{
-
-            if(this.state.lista[this.i]===null){
-              this.state.lista[this.i]=<div><br/><Lista/></div>
-              this.meh=1
-            }
-            this.i++
-        }while(this.meh!==1)
-        }else{
-*/
+}

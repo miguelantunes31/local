@@ -1,8 +1,10 @@
-import React, {Component} from 'react';
+import * as React from "react";
 import Todos from './todos';
 import AddTodo from './addForm';
 import Droppable from './drops/drops';
+import Draggable from './drops/drags';
 import Example from './exemplo';
+import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 
 import { compose, spacing, palette } from '@material-ui/system';
 import { styled } from '@material-ui/core/styles';
@@ -11,33 +13,54 @@ import Box from '@material-ui/core/Box';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import { render } from '@testing-library/react';
+
+const ola = require("./ola.json");
+
 
 //const Box = styled('div')(compose(spacing,palette));
 
 
-function Lista () {
+  
+  interface State {
+    items: any[string];
+  }
 
-    let todo:any[] | undefined;
 
 
-    function deleteTodo  (id: number)  {
+export default class Lista extends React.PureComponent<{}, State> {
+    constructor(props: {}) {
+      super(props);
+      this.state = { items: [] };
+    }
+    
+    
+    
+
+    /*function deleteTodo  (id: number)  {
         const todos = todo?.filter(todo => {
             return todo.id !== id
         })
-            return todos
-      }
+            return todos    <AddTodo addTodo={addTodo} />
+      }*/
 
-      /*function addTodo  (e: { id: number; })  {
-        e.id = Math.random()
-        let todos = [todo, e]
-            return todos
-      } <AddTodo addTodo={addTodo} />*/
+
 
       
-        
+      
+      
+
+    addTodo = (hi:string)=>{
+        this.state.items.push(<Draggable id={Math.random()} ><div>{hi}</div></Draggable>)
+        this.setState(this.state.items)
+        console.log(this.state.items)
+    }
+      
+    render() {
+          
     return<>
         <Box width="55%" bgcolor="grey.300" p={1} my={0.5} >
-            <Example/>
+            
         <table>
             
             <tr>
@@ -48,15 +71,24 @@ function Lista () {
                     <Container maxWidth="sm">
                     
                         <Typography style={{ backgroundColor: 'grey', height: '50vh', width: '50vh' }}>
+                        <Todos addTodo={this.addTodo} ></Todos>
+                            <div>
                                 
-                                <Todos todos={todo} eleminar={deleteTodo}></Todos>
+                                    {this.state.items}
+                                
+                            </div>
+                            
+                            
+                           
+                 
                         </Typography>
+                        
                     </Container>
                     
                 </Droppable>
             </th>
             <th>
-                <Droppable id="dr2">
+                <Droppable id="dr1">
                     <Container maxWidth="sm">
                         <Typography style={{ backgroundColor: 'grey', height: '50vh', width: '50vh' }} >
                         </Typography>
@@ -64,12 +96,11 @@ function Lista () {
                 </Droppable>   
             </th>
             </tr>
-            
         </table>
         </Box>
     </>
-    
+    }
+
+
+
 }
-
-export default Lista;
-
