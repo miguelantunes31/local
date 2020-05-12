@@ -8,13 +8,11 @@ const AddTodo: React.FC <{addTodo : any}> = () => {
 
     
 
-    /*function handleChange (e: { target: { value: any; }; }) {
-        content=e.target.value
-    }*/
+    
 
     function handleSubmit  (e: { preventDefault: () => void; }) {
         e.preventDefault(); 
-        //addTodo(user);
+
     }
 
 
@@ -33,8 +31,3 @@ const AddTodo: React.FC <{addTodo : any}> = () => {
 export default AddTodo; 
 
 
-
-/*
-<input type="text" onChange={handleChange} value={content}/>
-
-*/

@@ -25,48 +25,6 @@ type AddTodo = (newTodo: string) => void;
 function Todos ({addTodo}:TodosProps )  {
 
 
-    
-
-    /*todoList = this.state.items.length ? (
-        this.todoList.map((todos) => {
-            return(
-                <List component="nav" /*key={todoList.id}>
-                    <table /*id={this.state.todos.id}>
-                    <Box color="white" bgcolor="black" p={1}>
-                        <ListItem button >
-                        <table >
-                            <tr>
-                                <td>
-                            {todos}  
-                            </td>
-                            <td align="right">
-                                <Button variant="outlined" color="secondary" /*onClick={() => {eleminar(todo.id)}} >
-                                    <DeleteIcon/>
-                                </Button>
-                              </td>
-                              </tr>
-                        </table>
-                        </ListItem>
-                        </Box>
-                    </table>
-                </List>
-            )
-        })
-    ) : (
-            <p>Sem tarefas</p>
-
-
-            
-        )*/
-
-        /*var numbers = [1, 4, 9]; 
-        var roots = numbers.map(Math.sqrt); 
-        console.log("roots is : " + roots );*/
-
-        
-
-
-
     const [newTodo,setNewTodo] = useState("");
         
     
@@ -80,11 +38,11 @@ function Todos ({addTodo}:TodosProps )  {
         e.preventDefault();
         addTodo(newTodo);
         setNewTodo("");
-        //console.log(ola.ola)
+
       };
 
 
-    //const items = this.state.items;
+
     return(
         
         <div>

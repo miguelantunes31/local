@@ -2,7 +2,9 @@ import Lista from './components/List';
 import { useState, useEffect } from 'react';
 import * as React from "react";
 
-import Example from './components/exemplo';
+import Virtualize from './components/virtalize'
+
+
 
 import { compose, spacing, palette } from '@material-ui/system';
 import { styled } from '@material-ui/core/styles';
@@ -13,6 +15,7 @@ import Box from '@material-ui/core/Box';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { render } from 'react-dom';
+
 
 const BBox = styled('div')(compose(spacing,palette));
 
@@ -76,6 +79,9 @@ export default class App extends React.PureComponent<{}, State> {
     this.setState(ola.Lists)
   }
 
+  
+
+
 
 
 render(){
@@ -102,7 +108,6 @@ render(){
           <br/>
           <div>{this.state.lista}</div>
           <br/>
-  
         </div>
       </>
 }
