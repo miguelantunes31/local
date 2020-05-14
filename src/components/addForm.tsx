@@ -1,4 +1,5 @@
 import React, {Component,useState} from 'react'
+import { TextField, Button } from '@material-ui/core';
 
 type AddTodo = (newTodo: string) => void;
 
@@ -28,12 +29,12 @@ function AddTodo ({addTodo}:TodosProps )  {
     return(
         
         <div>
-            <form>
-                <input type="text" value={newTodo} onChange={handleChange} />
-                <button type="submit" onClick={handleSubmit}>
+       
+                <TextField  value={newTodo} onChange={handleChange} />
+                <Button onClick={handleSubmit}>
                     Add Todo
-                </button>
-            </form>
+                </Button>
+      
         </div>
     );
 

@@ -7,7 +7,7 @@ class Virtualize extends Component {
     renderRow = ({index,isScrolling,key,style}) =>{
         return(
             <div key={key} style={style}>
-                <div>{this.props.lista[index]}</div>
+                {this.props.lista[index]}
             </div>
         )
     }
