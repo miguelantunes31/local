@@ -20,7 +20,7 @@ class Virtualize extends Component {
                         return<List 
                             rowCount={this.props.lista.length}
                             width={width}
-                            height={height+400}
+                            height={height}
                             rowHeight={50}
                             rowRenderer={this.renderRow}
                         />

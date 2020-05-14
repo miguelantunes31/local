@@ -24,7 +24,7 @@ import { render } from '@testing-library/react';
 
   
   interface State {
-    items: any[string];
+    items:any[];
   }
 
   interface ola{
@@ -43,14 +43,17 @@ export default class Lista extends React.PureComponent<{}, State,ola> {
       this.state = { items: [] };
     }
     
+
     
     
 
-    /*deleteTodo  ()  {
-        const todos = this.state.items?.filter(this.state.items) => {
-            return todo.id !== id
+    /*deleteTodo =  (id:number) =>  {
+        const todos = this.state.items.filter(todo=>{
+            return todo.ip !== id
+        });
+        this.setState({
+            todos
         })
-            return todos
       }*/
 
       
@@ -59,9 +62,14 @@ export default class Lista extends React.PureComponent<{}, State,ola> {
       
 
     addTodo = (hi:string)=>{
-        this.state.items.push(<Draggable id={Math.random()} ><Box bgcolor="pink" p={1} my={0.5}><div>{hi}</div></Box></Draggable>)
+        //var items2 = [...this.state.items,] 
+        //this.state.items.concat()
+        /*this.state.items.push(<Draggable id={Math.random()} ><Box bgcolor="pink" p={1} my={0.5}>{hi}</Box></Draggable>)
         this.setState(this.state.items)
-        console.log(this.state.items)
+        console.log(this.state.items)*/
+         //hi.id=Math.random()
+         let todos = [...this.state.items, hi];
+         this.setState({todos})
     }
 
 
@@ -82,10 +90,8 @@ export default class Lista extends React.PureComponent<{}, State,ola> {
                     <Container maxWidth="sm">
                     
                         <Typography style={{ backgroundColor: 'grey', height: '50vh', width: '50vh' }}>
-                        <Todos addTodo={this.addTodo} ></Todos>
-                            <div>
-                                <Virtualize lista={this.state.items}/>
-                            </div>
+                        
+                            <Todos todos={this.state.items} /*Delete={this.deleteTodo}*//>
                             
                         </Typography>
                         
