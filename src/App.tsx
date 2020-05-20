@@ -1,57 +1,75 @@
-import Lista from './components/List';
-import { useState } from 'react';
 import * as React from "react";
+import { Grid, Button, Menu, MenuItem, TextField, Input, Typography, Box, Divider } from '@material-ui/core';
+import { useState } from "react";
+import Teste from "./teste";
 
-import { Button, Typography, Grid, Divider, Box } from '@material-ui/core'
-
-import { makeStyles } from '@material-ui/core/styles';
-
-
-//const BBox = styled('div')(compose(spacing,palette));
-
-const useStyles = makeStyles(() => ({
-  root: {}
-}))
-
-interface ILista {
+interface IList {
   name: string
 }
-export default function App() {
-  const [lista, setListas] = useState<ILista[]>([])
 
-  const onNewListClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+export default function App() {
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [newList, setNewList] = useState("");
+  const [list, setLists] = useState<IList[]>([])
+
+  let texto: string = "Lista"
+
+  const handleClick = (event: { currentTarget: React.SetStateAction<any>; }) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setAnchorEl(null);
+    setNewList("")
     event.preventDefault()
-    if (lista.length === 5) {
+    if (list.length === 5) {
       return alert("sem espaço para novas listas")
     }
-    setListas([...lista, { name: "nome" }])
-  }
+    setLists([...list, { name: "nome" }])
+
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewList(e.target.value);
+  };
+
 
   return (
-    <>
-      <Box
-        color="Blue" bgcolor="lightBlue" p={1}
-      >
-        <Grid container >
-          <Grid item>
 
-            <Button variant="outlined" color="secondary" onClick={onNewListClick}>
-              Nova Lista
-              </Button>
+    <Grid>
+      <Grid container justify="center" >
 
-          </Grid>
-        </Grid>
-      </Box>
-      <Divider />
-      {lista.map((item, index) => (
-        <div key={`${item.name}-${index}`}>
-          <Typography>
-            Lista {index}
-          </Typography>
-          <Lista />
-          </div>
-      ))}
-    </>
+        <Button variant="contained" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+          Adicionar Lista
+        </Button>
+
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem >
+            <Input type="text" value={newList} onChange={handleChange} /><Button onClick={handleClose}>Add Todo</Button>
+          </MenuItem>
+        </Menu>
+
+      </Grid>
+      <Grid >
+        {list.map((item, index) => (
+          <Box key={`${item.name}-${index}`}>
+            <Typography>
+              {texto} {index + 1}
+            </Typography>
+          </Box>
+        ))}
+        <Teste/>
+      </Grid>
+    </Grid>
+
   );
 }
 
