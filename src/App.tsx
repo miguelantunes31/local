@@ -1,20 +1,22 @@
 import * as React from "react";
 import { Grid, Button, Menu, MenuItem, TextField, Input, Typography, Box, Divider } from '@material-ui/core';
 import { useState } from "react";
-import Teste from "./teste";
+import Todos from "./todos";
 
 interface IList {
   name: string
 }
 
 
+
 export default function App() {
+
+  let texto: string = "ola"
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [newList, setNewList] = useState("");
   const [list, setLists] = useState<IList[]>([])
 
-  let texto: string = "Lista"
 
   const handleClick = (event: { currentTarget: React.SetStateAction<any>; }) => {
     setAnchorEl(event.currentTarget);
@@ -26,14 +28,22 @@ export default function App() {
     event.preventDefault()
     if (list.length === 5) {
       return alert("sem espaço para novas listas")
+    } else if (newList !== "") {
+      addList(newList);
+      setNewList("");
+    } else {
+      return alert("Introduza um titulo")
     }
-    setLists([...list, { name: "nome" }])
-
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewList(e.target.value);
   };
+
+  const addList = (name: string) => {
+    setLists([...list, { name }]);
+  };
+
 
 
   return (
@@ -53,30 +63,21 @@ export default function App() {
           onClose={handleClose}
         >
           <MenuItem >
-            <Input type="text" value={newList} onChange={handleChange} /><Button onClick={handleClose}>Add Todo</Button>
+            <TextField id="standard-basic" value={newList} onChange={handleChange} />
+            <Button onClick={handleClose}>Adicionar titulo</Button>
           </MenuItem>
         </Menu>
-
       </Grid>
-      <Grid >
+      <Grid>
         {list.map((item, index) => (
           <Box key={`${item.name}-${index}`}>
             <Typography>
-              {texto} {index + 1}
+              {item.name} {index + 1} 
             </Typography>
+            <Todos/> 
           </Box>
         ))}
-        <Teste/>
       </Grid>
     </Grid>
-
   );
 }
-
-
-
-
-
-
-
-
