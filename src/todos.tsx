@@ -1,11 +1,25 @@
 import * as React from "react";
-import { TextField, Button, Box, Typography, Grid, Container, Paper } from "@material-ui/core";
+import { TextField, Button, Box, Typography, Grid, Container, Paper, makeStyles } from "@material-ui/core";
 
 export interface TodoItem {
     title: string;
 }
 
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        height: 140,
+        width: 100
+    },
+
+    grid: {
+        height: 500,
+        width: "100%",
+    }
+}));
+
 const Todos = () => {
+
+    const classes = useStyles();
 
     const [items, setItems] = React.useState<TodoItem[]>([]);
     const [newTodo, setNewTodo] = React.useState("");
@@ -29,26 +43,24 @@ const Todos = () => {
 
     return (
 
-        <Grid>
+        <Grid className={classes.grid}>
             <Box >
                 <TextField label="todo" value={newTodo} onChange={handleChange} />
                 <Button onClick={handleSubmit}>Add Todo</Button>
             </Box>
             <Grid container>
-                <Grid>
-                {items.map((item, index) => (
-                    <Container key={`${item.title}-${index}`}>
-                        <Typography>
-                            {item.title}
-                        </Typography>
+                <Paper className={classes.paper}>
+                    {items.map((item, index) => (
+                        <Container key={`${item.title}-${index}`}>
+                            <Typography>
+                                {item.title}
+                            </Typography>
+                        </Container>
+                    ))}
+                </Paper>
+                <Paper className={classes.paper}>
 
-                    </Container>
-
-                ))}
-                </Grid>
-                <Grid>
-                    ola
-                </Grid>
+                </Paper>
             </Grid>
         </Grid>
     );
