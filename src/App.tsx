@@ -29,7 +29,7 @@ export default function App() {
     setNewList("")
     event.preventDefault()
     if (list.length === 5) {
-      return alert("sem espaço para novas listas")
+      return alert("Sem espaço para novas listas")
     } else if (newList !== "") {
       addList(newList);
       setNewList("");
@@ -87,11 +87,11 @@ export default function App() {
         <Button variant="contained" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
           Adicionar Lista
         </Button>
-        <Button onClick={openConfirmation}>Eleminar lista</Button>
+        <Button onClick={openConfirmation}>Eliminar lista</Button>
 
 
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Escolha a lista para eleminar</DialogTitle>
+          <DialogTitle id="form-dialog-title">Escolha a lista para eliminar</DialogTitle>
           <DialogContent>
             <TextField
               value={elemination}
