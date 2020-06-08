@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TextField, Button, Box, Typography, Grid, Container, Paper, makeStyles } from "@material-ui/core";
 import { List, AutoSizer, ListRowProps } from "react-virtualized";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 
 export interface TodoItem {
     title: string,
@@ -57,10 +57,21 @@ const Todos = () => {
         setNewTodo("");
     };
 
-    const eleminate = (index: number) => {
-        const newItems = [...items]
-        newItems.splice(index, 1)
-        setItems(newItems)
+    const eleminate = (index: number, array: number) => {
+
+        if (array === 1) {
+            const newItems = [...items]
+            newItems.splice(index, 1)
+            setItems(newItems)
+        } else {
+            const newItems2 = [...items2]
+            newItems2.splice(index, 1)
+            setItems2(newItems2)
+        }
+
+
+
+
     }
 
     function renderRow({ key, index }: ListRowProps) {
@@ -68,7 +79,7 @@ const Todos = () => {
             <Draggable draggableId={key} index={index}>
                 {(provided, ) => (
                     <Paper className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
-                        {items[index].title}<Button onClick={() => eleminate(index)}>Eliminar</Button>
+                        {items[index].title}<Button onClick={() => eleminate(index, 1)}>Eliminar</Button>
                     </Paper>
                 )}
             </Draggable>
@@ -76,7 +87,12 @@ const Todos = () => {
     }
 
 
-    const onDragEnd = (result: any) => {
+    function mostraIndex (index:number) {
+        return index
+    }
+
+
+    const onDragEnd = (result:DropResult):void => {
         const { destination, source, draggableId } = result;
 
 
@@ -88,23 +104,53 @@ const Todos = () => {
             return;
         }
 
-        
+        let index:string="";
 
+                for(let i=0;i<=draggableId.length;i++){
+                    if(draggableId[i]===" "){
+                        index=draggableId.slice(i+1,draggableId.length)
+                    }
+                }
 
+        if (source.droppableId === "droppable") {
+            if (destination.droppableId === "droppable2") {
+                
+                const newItems = [...items]
 
+                setItems2([...items2, newItems[parseInt(index)]]);
+                newItems.splice(parseInt(index), 1)
+                setItems(newItems)
+            } else {
+                return;
+            }
+        }else if(source.droppableId==="droppable2"){
+            if (destination.droppableId === "droppable") {
+                const newItems2 = [...items2]
 
-    };
+                setItems([...items, newItems2[parseInt(index)]]);
+                newItems2.splice(parseInt(index), 1)
+                setItems2(newItems2)
+            }else{
+                return;
+            }
+        }else{
+            return;
+        }
+
+    }; 
+
+    
+
 
     return (
 
         <Grid className={classes.grid}>
             <Box >
-
                 <TextField label="todo" value={newTodo} onChange={handleChange} />
                 <Button onClick={handleSubmit}>Add Todo</Button>
             </Box>
             <Grid container>
-                <DragDropContext onDragEnd={onDragEnd} >
+                <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="droppable">
                         {(provided, snapshot) => (
 
@@ -112,12 +158,13 @@ const Todos = () => {
                                 ref={provided.innerRef}
                             >
                                 {items.map((item, index) => (
-                                    <Draggable draggableId={item.title} index={index} key={index}>
+                                    <Draggable draggableId={item.title+" "+index} index={0+index} key={index * Math.random()}>
                                         {(provided) => (
+                                            
                                             <Paper key={item.id} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
 
                                                 <Typography key={item.id} >
-                                                    {item.title}<Button onClick={() => eleminate(index)}>Eliminar</Button>
+                                                    {item.title}<Button onClick={() => eleminate(index, 1)}>Eliminar</Button>
                                                 </Typography>
                                             </Paper>
                                         )}
@@ -134,13 +181,13 @@ const Todos = () => {
                         {(provided, snapshot) => (
                             <Paper innerRef={provided.innerRef} {...provided.droppableProps} className={classes.paper}
                                 ref={provided.innerRef}>
-                                {items2.map((item2, index) =>
-                                    <Draggable draggableId={index.toString()} index={index} key={index}>
+                                {items2.map((item2, index2) =>
+                                    <Draggable draggableId={item2.title+" "+index2} index={index2} key={index2}>
                                         {(provided) => (
                                             <Paper key={item2.id} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
 
                                                 <Typography key={item2.id} >
-                                                    {item2.title}<Button onClick={() => eleminate(index)}>Eliminar</Button>
+                                                    {item2.title}<Button onClick={() => eleminate(index2, 2)}>Eliminar</Button>
                                                 </Typography>
                                             </Paper>
                                         )}
