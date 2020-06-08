@@ -81,61 +81,61 @@ export default function App() {
   return (
 
     <Grid>
+        <Grid container justify="center" >
 
-      <Grid container justify="center" >
-
-        <Button variant="contained" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          Adicionar Lista
+          <Button variant="contained" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            Adicionar Lista
         </Button>
-        <Button onClick={openConfirmation}>Eliminar lista</Button>
+          <Button onClick={openConfirmation}>Eliminar lista</Button>
 
 
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Escolha a lista para eliminar</DialogTitle>
-          <DialogContent>
-            <TextField
-              value={elemination}
-              label="Numero da lista"
-              onChange={eleminationChange}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeConfirmation} color="primary">
-              Cancelar
+          <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Escolha a lista para eliminar</DialogTitle>
+            <DialogContent>
+              <TextField
+                value={elemination}
+                label="Numero da lista"
+                onChange={eleminationChange}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={closeConfirmation} color="primary">
+                Cancelar
           </Button>
-            <Button onClick={deleteList} color="primary">
-              Eleminar
+              <Button onClick={deleteList} color="primary">
+                Eleminar
           </Button>
-          </DialogActions>
-        </Dialog>
+            </DialogActions>
+          </Dialog>
 
 
 
 
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem >
-            <TextField id="standard-basic" value={newList} onChange={handleChange} />
-            <Button onClick={handleClose}>Adicionar titulo</Button>
-          </MenuItem>
-        </Menu>
-      </Grid>
-      <Grid>
-        {list.map((item, index) => (
-          <Box key={`${item.name}-${index}`}>
-            <Typography>
-              {item.name} {index + 1}
-            </Typography>
-            <Todos />
-          </Box>
-        ))}
-      </Grid>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem >
+              <TextField id="standard-basic" value={newList} onChange={handleChange} />
+              <Button onClick={handleClose}>Adicionar titulo</Button>
+            </MenuItem>
+          </Menu>
+        </Grid>
+        <Grid>
+          {list.map((item, index) => (
+            <Box key={`${item.name}-${index}`}>
+              <Typography>
+                {item.name} {index + 1}
+              </Typography>
+              <Todos />
+            </Box>
+          ))}
+        </Grid>
     </Grid>
+
   );
 }
 
