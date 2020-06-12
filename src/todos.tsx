@@ -73,26 +73,44 @@ const Todos = () => {
 
 
     }
-
-    function renderRow({ key, index }: ListRowProps) {
+    function rowRenderer({ key, index }: ListRowProps) {
         return (
-            <Draggable draggableId={key} index={index}>
-                {(provided, ) => (
-                    <Paper className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
-                        {items[index].title}<Button onClick={() => eleminate(index, 1)}>Eliminar</Button>
+
+            <Draggable draggableId={index + " " + items[index].title} index={0 + index} key={index * Math.random()}>
+                {(provided) => (
+
+                    <Paper key={key} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
+
+                        <Typography key={items[index].id} >
+                            {items[index].title}<Button onClick={() => eleminate(index, 1)}>Eliminar</Button>
+                        </Typography>
                     </Paper>
                 )}
             </Draggable>
+
+        );
+    }
+
+    function rowRenderer2({ key, index }: ListRowProps) {
+        return (
+
+            <Draggable draggableId={index + " " + items2[index].title} index={0 + index} key={index * Math.random()}>
+                {(provided) => (
+
+                    <Paper key={key} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
+
+                        <Typography key={items2[index].id} >
+                            {items2[index].title}<Button onClick={() => eleminate(index, 2)}>Eliminar</Button>
+                        </Typography>
+                    </Paper>
+                )}
+            </Draggable>
+
         );
     }
 
 
-    function mostraIndex (index:number) {
-        return index
-    }
-
-
-    const onDragEnd = (result:DropResult):void => {
+    const onDragEnd = (result: DropResult): void => {
         const { destination, source, draggableId } = result;
 
 
@@ -104,42 +122,46 @@ const Todos = () => {
             return;
         }
 
-        let index:string="";
+        let index: string = "";
 
-                for(let i=0;i<=draggableId.length;i++){
-                    if(draggableId[i]===" "){
-                        index=draggableId.slice(i+1,draggableId.length)
-                    }
-                }
+        for (let i = 0; i <= draggableId.length; i++) {
+            if (draggableId[i] === " ") {
+                index = draggableId.slice(0, i)
+                i = draggableId.length
+                console.log(i, index)
+            }
+        }
+
 
         if (source.droppableId === "droppable") {
             if (destination.droppableId === "droppable2") {
-                
+
                 const newItems = [...items]
 
                 setItems2([...items2, newItems[parseInt(index)]]);
                 newItems.splice(parseInt(index), 1)
                 setItems(newItems)
+
             } else {
                 return;
             }
-        }else if(source.droppableId==="droppable2"){
+        } else if (source.droppableId === "droppable2") {
             if (destination.droppableId === "droppable") {
                 const newItems2 = [...items2]
 
                 setItems([...items, newItems2[parseInt(index)]]);
                 newItems2.splice(parseInt(index), 1)
                 setItems2(newItems2)
-            }else{
+            } else {
                 return;
             }
-        }else{
+        } else {
             return;
         }
 
-    }; 
+    };
 
-    
+
 
 
     return (
@@ -151,25 +173,31 @@ const Todos = () => {
             </Box>
             <Grid container>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable">
-                        {(provided, snapshot) => (
-
+                    <Droppable droppableId="droppable" renderClone={(provided, snapshot, rubric) => (
+                        <Paper className={classes.box}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                        >
+                            {items[rubric.source.index].title}
+                        </Paper>
+                    )}>
+                        {(provided) => (
                             <Paper innerRef={provided.innerRef} {...provided.droppableProps} className={classes.paper}
                                 ref={provided.innerRef}
                             >
-                                {items.map((item, index) => (
-                                    <Draggable draggableId={item.title+" "+index} index={0+index} key={index * Math.random()}>
-                                        {(provided) => (
-                                            
-                                            <Paper key={item.id} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
 
-                                                <Typography key={item.id} >
-                                                    {item.title}<Button onClick={() => eleminate(index, 1)}>Eliminar</Button>
-                                                </Typography>
-                                            </Paper>
-                                        )}
-                                    </Draggable>
-                                ))}
+                                <AutoSizer>
+                                    {({ height, width }) => (
+                                        <List
+                                            width={width}
+                                            height={height}
+                                            rowCount={items.length}
+                                            rowHeight={50}
+                                            rowRenderer={rowRenderer}
+                                        />
+                                    )}
+                                </AutoSizer>
 
                                 {provided.placeholder}
 
@@ -177,22 +205,29 @@ const Todos = () => {
                             </Paper>
                         )}
                     </Droppable>
-                    <Droppable droppableId="droppable2">
-                        {(provided, snapshot) => (
+                    <Droppable droppableId="droppable2" renderClone={(provided, snapshot, rubric) => (
+                        <Paper className={classes.box}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                        >
+                            {items2[rubric.source.index].title}
+                        </Paper>
+                    )}>
+                        {(provided) => (
                             <Paper innerRef={provided.innerRef} {...provided.droppableProps} className={classes.paper}
                                 ref={provided.innerRef}>
-                                {items2.map((item2, index2) =>
-                                    <Draggable draggableId={item2.title+" "+index2} index={index2} key={index2}>
-                                        {(provided) => (
-                                            <Paper key={item2.id} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
-
-                                                <Typography key={item2.id} >
-                                                    {item2.title}<Button onClick={() => eleminate(index2, 2)}>Eliminar</Button>
-                                                </Typography>
-                                            </Paper>
-                                        )}
-                                    </Draggable>
-                                )}
+                                <AutoSizer>
+                                    {({ height, width }) => (
+                                        <List
+                                            width={width}
+                                            height={height}
+                                            rowCount={items2.length}
+                                            rowHeight={50}
+                                            rowRenderer={rowRenderer2}
+                                        />
+                                    )}
+                                </AutoSizer>
                                 {provided.placeholder}
                             </Paper>
                         )}
@@ -206,67 +241,3 @@ const Todos = () => {
 };
 
 export default Todos;
-
-
-/*
-
-<AutoSizer>
-                    {({ width, height }) => {
-                        return (
-                            <List
-                                width={width}
-                                height={400}
-                                rowHeight={400}
-                                rowRenderer={renderRow}
-                                rowCount={items.length}
-                            />
-                        );
-                    }}
-                </AutoSizer>
-
-
-
-
-
-
-
-
-
-
-                <AutoSizer>
-                                    {({ width, height }) => {
-                                        return (
-                                            <List
-                                                width={width}
-                                                height={height}
-                                                rowHeight={50}
-                                                rowRenderer={renderRow}
-                                                rowCount={items.length}
-                                            />
-
-                                        );
-                                    }}
-
-                                </AutoSizer>
-
-
-
-<Grid container>
-                <Paper className={classes.paper}>
-                    {items.map((item, index) => (
-
-                        <Container key={item.id}>
-
-                            <Typography key={item.id} >
-                                {item.title}<Button onClick={() => eleminate(index)}>Eliminar</Button>
-                            </Typography>
-                        </Container>
-                    ))}
-                </Paper>
-                <Paper className={classes.paper}>
-
-                </Paper>
-            </Grid>
-
-
-*/
