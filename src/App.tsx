@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Button, Menu, MenuItem, TextField, Input, Typography, Box, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { Grid, Button, Menu, MenuItem, TextField, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Paper, makeStyles } from '@material-ui/core';
 import { useState } from "react";
 import Todos from "./todos";
 
@@ -8,10 +8,21 @@ interface IList {
   id: number
 }
 
+const useStyles = makeStyles(() => ({
+  paper: {
+    height: 30,
+    width: "100%",
+    color: "white",
+    backgroundColor: "black"
+  }
+}));
+
 
 
 export default function App() {
 
+
+  const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [newList, setNewList] = useState("");
@@ -81,59 +92,60 @@ export default function App() {
   return (
 
     <Grid>
-        <Grid container justify="center" >
+      <Grid container justify="center" >
 
-          <Button variant="contained" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-            Adicionar Lista
+        <Button variant="contained" color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+          Adicionar Lista
         </Button>
-          <Button onClick={openConfirmation}>Eliminar lista</Button>
+        <Button onClick={openConfirmation}>Eliminar lista</Button>
 
 
-          <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Escolha a lista para eliminar</DialogTitle>
-            <DialogContent>
-              <TextField
-                value={elemination}
-                label="Numero da lista"
-                onChange={eleminationChange}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={closeConfirmation} color="primary">
-                Cancelar
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Escolha a lista para eliminar</DialogTitle>
+          <DialogContent>
+            <TextField
+              value={elemination}
+              label="Numero da lista"
+              onChange={eleminationChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeConfirmation} color="primary">
+              Cancelar
           </Button>
-              <Button onClick={deleteList} color="primary">
-                Eleminar
+            <Button onClick={deleteList} color="primary">
+              Eleminar
           </Button>
-            </DialogActions>
-          </Dialog>
+          </DialogActions>
+        </Dialog>
 
-
-
-
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem >
-              <TextField id="standard-basic" value={newList} onChange={handleChange} />
-              <Button onClick={handleClose}>Adicionar titulo</Button>
-            </MenuItem>
-          </Menu>
-        </Grid>
-        <Grid>
-          {list.map((item, index) => (
-            <Box key={`${item.name}-${index}`}>
-              <Typography>
-                {item.name} {index + 1}
-              </Typography>
-              <Todos />
-            </Box>
-          ))}
-        </Grid>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem >
+            <TextField id="standard-basic" value={newList} onChange={handleChange} />
+            <Button onClick={handleClose}>Adicionar titulo</Button>
+          </MenuItem>
+        </Menu>
+      </Grid>
+      <Typography paragraph />
+      <Typography paragraph />
+      <Typography paragraph />
+      <Grid container spacing={3}>
+        {list.map((item, index) => (
+          <Grid container item xs={7} key={index}>
+            <Paper square className={classes.paper}  >Lista {index + 1}</Paper>
+            <Paper square className={classes.paper} elevation={3}>
+              {item.name}
+            </Paper>
+            <Todos />
+          </Grid>
+        ))}
+      </Grid>
     </Grid>
 
   );

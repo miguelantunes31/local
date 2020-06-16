@@ -1,7 +1,8 @@
 import * as React from "react";
-import { TextField, Button, Box, Typography, Grid, Container, Paper, makeStyles } from "@material-ui/core";
-import { List, AutoSizer, ListRowProps } from "react-virtualized";
+import { TextField, Button, Box, Grid, Paper, makeStyles, ListItem, ListItemText } from "@material-ui/core";
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { FixedSizeList } from 'react-window';
 
 export interface TodoItem {
     title: string,
@@ -12,15 +13,12 @@ export interface TodoItem2 {
     title: string,
     id: number
 }
-const listHeight = 600;
-const rowHeight = 50;
-const rowWidth = 800;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     paper: {
         height: 400,
         width: 200,
-        backgroundColor: "red"
+        backgroundColor: "lightgrey"
     },
 
     grid: {
@@ -43,8 +41,9 @@ const Todos = () => {
     const [newTodo, setNewTodo] = React.useState("");
 
     const addTodo = (title: string) => {
+        if(title!==""){
         setItems([...items, { title, id: Math.random() }]);
-        console.log(items)
+        console.log(items)}
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,44 +67,39 @@ const Todos = () => {
             newItems2.splice(index, 1)
             setItems2(newItems2)
         }
-
-
-
-
     }
-    function rowRenderer({ key, index }: ListRowProps) {
+
+    function renderRow(props: any ) {
+        
+        const { index } = props;
+
+        
         return (
-
-            <Draggable draggableId={index + " " + items[index].title} index={0 + index} key={index * Math.random()}>
+            <Draggable draggableId={index + "/" + Math.random()} index={0 + index} key={index * Math.random()}>
                 {(provided) => (
-
-                    <Paper key={key} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
-
-                        <Typography key={items[index].id} >
-                            {items[index].title}<Button onClick={() => eleminate(index, 1)}>Eliminar</Button>
-                        </Typography>
-                    </Paper>
+                    <ListItem divider  className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
+                        <ListItemText  primary={items[index].title} /><Button onClick={() => eleminate(index, 1)}><DeleteIcon /></Button>
+                    </ListItem>
                 )}
             </Draggable>
+
 
         );
     }
 
-    function rowRenderer2({ key, index }: ListRowProps) {
+    function renderRow2(props: any) {
+
+        const { index } = props;
+
         return (
 
-            <Draggable draggableId={index + " " + items2[index].title} index={0 + index} key={index * Math.random()}>
+            <Draggable draggableId={index + "/" + Math.random()} index={0 + index} key={index}>
                 {(provided) => (
-
-                    <Paper key={key} className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
-
-                        <Typography key={items2[index].id} >
-                            {items2[index].title}<Button onClick={() => eleminate(index, 2)}>Eliminar</Button>
-                        </Typography>
-                    </Paper>
+                    <ListItem divider className={classes.box} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
+                        <ListItemText primary={items2[index].title} /><Button onClick={() => eleminate(index, 2)}><DeleteIcon /></Button>
+                    </ListItem>
                 )}
             </Draggable>
-
         );
     }
 
@@ -122,15 +116,13 @@ const Todos = () => {
             return;
         }
 
-        let index: string = "";
-
-        for (let i = 0; i <= draggableId.length; i++) {
-            if (draggableId[i] === " ") {
-                index = draggableId.slice(0, i)
-                i = draggableId.length
-                console.log(i, index)
-            }
-        }
+        const index: string = draggableId.split("/")[0]
+        // for (let i = 0; i <= draggableId.length; i++) {
+        //     if (draggableId[i] === " ") {
+        //         index = draggableId.slice(0, i)
+        //         i = draggableId.length
+        //     }
+        // }
 
 
         if (source.droppableId === "droppable") {
@@ -158,7 +150,6 @@ const Todos = () => {
         } else {
             return;
         }
-
     };
 
 
@@ -166,32 +157,74 @@ const Todos = () => {
 
     return (
 
-        <Grid className={classes.grid}>
-            <Box >
-                <TextField label="todo" value={newTodo} onChange={handleChange} />
-                <Button onClick={handleSubmit}>Add Todo</Button>
-            </Box>
-            <Grid container>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable" renderClone={(provided, snapshot, rubric) => (
-                        <Paper className={classes.box}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
+
+        <Grid container>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="droppable" renderClone={(provided, snapshot, rubric) => (
+                    <ListItem divider className={classes.box}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                    >
+                        <ListItemText primary={items[rubric.source.index].title} />
+                        <Button><DeleteIcon /></Button>
+                    </ListItem>
+                )}>
+                    {(provided) => (
+                        <Grid item xs={6} innerRef={provided.innerRef} {...provided.droppableProps} className={classes.paper}
                             ref={provided.innerRef}
                         >
-                            {items[rubric.source.index].title}
-                        </Paper>
-                    )}>
-                        {(provided) => (
-                            <Paper innerRef={provided.innerRef} {...provided.droppableProps} className={classes.paper}
-                                ref={provided.innerRef}
-                            >
+                            <Box >
+                                <TextField label="todo" value={newTodo} onChange={handleChange} />
+                                <Button onClick={handleSubmit}>Add Todo</Button>
+                            </Box>
 
+                            <FixedSizeList height={350} width="100%" itemSize={50} itemCount={items.length} >
+                                {renderRow}
+                            </FixedSizeList>
+
+
+                            {provided.placeholder}
+
+
+                        </Grid>
+                    )}
+                </Droppable>
+                <Droppable droppableId="droppable2" renderClone={(provided, snapshot, rubric) => (
+                    <ListItem divider className={classes.box}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    ref={provided.innerRef}
+                >
+                    <ListItemText primary={items2[rubric.source.index].title} />
+                    <Button><DeleteIcon /></Button>
+                </ListItem>
+                )}>
+                    {(provided) => (
+                        <Grid item xs={6} innerRef={provided.innerRef} {...provided.droppableProps} className={classes.paper}
+                            ref={provided.innerRef}>
+                            <FixedSizeList height={400} width="100%" itemSize={50} itemCount={items2.length} >
+                                {renderRow2}
+                            </FixedSizeList>
+                            {provided.placeholder}
+                        </Grid>
+                    )}
+                </Droppable>
+            </DragDropContext>
+
+        </Grid>
+
+    );
+};
+
+export default Todos;
+
+/*
                                 <AutoSizer>
                                     {({ height, width }) => (
                                         <List
                                             width={width}
-                                            height={height}
+                                            height={height-46}
                                             rowCount={items.length}
                                             rowHeight={50}
                                             rowRenderer={rowRenderer}
@@ -199,45 +232,5 @@ const Todos = () => {
                                     )}
                                 </AutoSizer>
 
-                                {provided.placeholder}
 
-
-                            </Paper>
-                        )}
-                    </Droppable>
-                    <Droppable droppableId="droppable2" renderClone={(provided, snapshot, rubric) => (
-                        <Paper className={classes.box}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                        >
-                            {items2[rubric.source.index].title}
-                        </Paper>
-                    )}>
-                        {(provided) => (
-                            <Paper innerRef={provided.innerRef} {...provided.droppableProps} className={classes.paper}
-                                ref={provided.innerRef}>
-                                <AutoSizer>
-                                    {({ height, width }) => (
-                                        <List
-                                            width={width}
-                                            height={height}
-                                            rowCount={items2.length}
-                                            rowHeight={50}
-                                            rowRenderer={rowRenderer2}
-                                        />
-                                    )}
-                                </AutoSizer>
-                                {provided.placeholder}
-                            </Paper>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-
-            </Grid>
-
-        </Grid>
-    );
-};
-
-export default Todos;
+*/
